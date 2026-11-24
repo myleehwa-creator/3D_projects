@@ -1,0 +1,1048 @@
+{
+  "grid_x": {
+    "A": 13.43,
+    "B": 788.43,
+    "C": 1563.43,
+    "D": 2338.43,
+    "E": 3113.43,
+    "F": 3888.43,
+    "G": 4663.43,
+    "H": 5438.43,
+    "I": 6213.43,
+    "J": 6988.43,
+    "K": 7763.43,
+    "L": 8538.43,
+    "M": 9313.43,
+    "N": 10088.43,
+    "O": 10863.43,
+    "P": 11638.43,
+    "Q": 12413.43,
+    "R": 13139.99
+  },
+  "grid_y": {
+    "1": -0.0,
+    "16": 10554.0,
+    "15": 9850.4,
+    "14": 9146.8,
+    "13": 8443.2,
+    "12": 7739.6,
+    "11": 7036.0,
+    "10": 6332.4,
+    "9": 5628.8,
+    "8": 4925.2,
+    "7": 4221.6,
+    "6": 3518.0,
+    "5": 2814.4,
+    "4": 2110.8,
+    "3": 1407.2,
+    "2": 703.6
+  },
+  "columns": [
+    {
+      "x_cm": 7825.5,
+      "y_cm": 10875.73,
+      "rot_deg": 0,
+      "grid": "K-16",
+      "was_negative": false
+    },
+    {
+      "x_cm": 8600.5,
+      "y_cm": 10875.73,
+      "rot_deg": 0,
+      "grid": "L-16",
+      "was_negative": false
+    },
+    {
+      "x_cm": 9375.5,
+      "y_cm": 10875.73,
+      "rot_deg": 0,
+      "grid": "M-16",
+      "was_negative": false
+    },
+    {
+      "x_cm": 10150.5,
+      "y_cm": 10875.73,
+      "rot_deg": 0,
+      "grid": "N-16",
+      "was_negative": false
+    },
+    {
+      "x_cm": 10925.5,
+      "y_cm": 10875.73,
+      "rot_deg": 0,
+      "grid": "O-16",
+      "was_negative": false
+    },
+    {
+      "x_cm": 11700.5,
+      "y_cm": 10875.73,
+      "rot_deg": 0,
+      "grid": "P-16",
+      "was_negative": false
+    },
+    {
+      "x_cm": 12475.5,
+      "y_cm": 10875.73,
+      "rot_deg": 0,
+      "grid": "Q-16",
+      "was_negative": false
+    },
+    {
+      "x_cm": 888.74,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "B-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 1625.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "C-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 2400.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "D-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 3175.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "E-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 3950.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "F-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 4725.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "G-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 5500.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "H-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 6275.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "I-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 7050.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "J-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 7825.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "K-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 8600.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "L-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 9375.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "M-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 10150.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "N-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 10925.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "O-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 11700.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "P-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 12475.5,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "Q-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13202.06,
+      "y_cm": 10072.69,
+      "rot_deg": 0,
+      "grid": "R-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 9422.61,
+      "rot_deg": 90.0,
+      "grid": "B-14",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 8718.99,
+      "rot_deg": 90.0,
+      "grid": "B-13",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 8015.38,
+      "rot_deg": 90.0,
+      "grid": "B-12",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 7311.76,
+      "rot_deg": 90.0,
+      "grid": "B-11",
+      "was_negative": false
+    },
+    {
+      "x_cm": 100.99,
+      "y_cm": 6118.66,
+      "rot_deg": 90.0,
+      "grid": "A-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 98.44,
+      "y_cm": 6592.84,
+      "rot_deg": 0,
+      "grid": "A-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 6624.71,
+      "rot_deg": 90.0,
+      "grid": "B-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 100.99,
+      "y_cm": 5598.6,
+      "rot_deg": 90.0,
+      "grid": "A-9",
+      "was_negative": false
+    },
+    {
+      "x_cm": 100.99,
+      "y_cm": 5078.53,
+      "rot_deg": 90.0,
+      "grid": "A-8",
+      "was_negative": false
+    },
+    {
+      "x_cm": 100.99,
+      "y_cm": 4558.47,
+      "rot_deg": 90.0,
+      "grid": "A-7",
+      "was_negative": false
+    },
+    {
+      "x_cm": 100.99,
+      "y_cm": 4038.4,
+      "rot_deg": 90.0,
+      "grid": "A-7",
+      "was_negative": false
+    },
+    {
+      "x_cm": 100.99,
+      "y_cm": 3561.67,
+      "rot_deg": 90.0,
+      "grid": "A-6",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 2845.31,
+      "rot_deg": 90.0,
+      "grid": "B-5",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 3539.37,
+      "rot_deg": 90.0,
+      "grid": "B-6",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 2141.69,
+      "rot_deg": 90.0,
+      "grid": "B-4",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 1438.07,
+      "rot_deg": 90.0,
+      "grid": "B-3",
+      "was_negative": false
+    },
+    {
+      "x_cm": 891.29,
+      "y_cm": 734.45,
+      "rot_deg": 90.0,
+      "grid": "B-2",
+      "was_negative": false
+    },
+    {
+      "x_cm": 888.74,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "B-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 1625.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "C-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 2400.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "D-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 3175.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "E-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 3950.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "F-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 4725.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "G-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 5500.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "H-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 6275.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "I-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 7050.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "J-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 7825.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "K-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 8600.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "L-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 9375.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "M-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 10150.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "N-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 10925.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "O-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 11700.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "P-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 12475.5,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "Q-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13202.06,
+      "y_cm": 80.54,
+      "rot_deg": 0,
+      "grid": "R-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 9422.61,
+      "rot_deg": 90.0,
+      "grid": "R-14",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 8718.99,
+      "rot_deg": 90.0,
+      "grid": "R-13",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 8015.38,
+      "rot_deg": 90.0,
+      "grid": "R-12",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 7311.76,
+      "rot_deg": 90.0,
+      "grid": "R-11",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 6608.14,
+      "rot_deg": 90.0,
+      "grid": "R-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 734.45,
+      "rot_deg": 90.0,
+      "grid": "R-2",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 1438.07,
+      "rot_deg": 90.0,
+      "grid": "R-3",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 2141.69,
+      "rot_deg": 90.0,
+      "grid": "R-4",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 2845.31,
+      "rot_deg": 90.0,
+      "grid": "R-5",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 3548.93,
+      "rot_deg": 90.0,
+      "grid": "R-6",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 4160.77,
+      "rot_deg": 90.0,
+      "grid": "R-7",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 4772.61,
+      "rot_deg": 90.0,
+      "grid": "R-8",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 5384.45,
+      "rot_deg": 90.0,
+      "grid": "R-9",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13217.36,
+      "y_cm": 5996.3,
+      "rot_deg": 90.0,
+      "grid": "R-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 888.74,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "B-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 888.74,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "B-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 1625.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "C-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 1625.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "C-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 2400.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "D-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 2400.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "D-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 3175.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "E-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 3175.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "E-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 3950.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "F-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 3950.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "F-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 4725.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "G-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 4725.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "G-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 5500.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "H-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 5500.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "H-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 6275.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "I-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 6275.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "I-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 7050.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "J-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 7050.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "J-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 7825.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "K-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 7825.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "K-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 8600.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "L-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 8600.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "L-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 9375.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "M-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 9375.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "M-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 10150.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "N-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 10150.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "N-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 10925.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "O-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 10925.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "O-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 11700.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "P-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 11700.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "P-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 12475.5,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "Q-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 12475.5,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "Q-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 13202.06,
+      "y_cm": 6166.78,
+      "rot_deg": 0,
+      "grid": "R-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 13202.06,
+      "y_cm": 3990.28,
+      "rot_deg": 180.0,
+      "grid": "R-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 916.78,
+      "y_cm": 6166.78,
+      "rot_deg": 90.0,
+      "grid": "B-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 1597.45,
+      "y_cm": 6166.78,
+      "rot_deg": 90.0,
+      "grid": "C-10",
+      "was_negative": true
+    },
+    {
+      "x_cm": 916.78,
+      "y_cm": 3990.28,
+      "rot_deg": 90.0,
+      "grid": "B-7",
+      "was_negative": false
+    },
+    {
+      "x_cm": 1597.45,
+      "y_cm": 3990.28,
+      "rot_deg": 90.0,
+      "grid": "C-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 5529.33,
+      "y_cm": 6166.78,
+      "rot_deg": 90.0,
+      "grid": "H-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 6247.45,
+      "y_cm": 6166.78,
+      "rot_deg": 90.0,
+      "grid": "I-10",
+      "was_negative": true
+    },
+    {
+      "x_cm": 5529.33,
+      "y_cm": 3990.28,
+      "rot_deg": 90.0,
+      "grid": "H-7",
+      "was_negative": false
+    },
+    {
+      "x_cm": 6247.45,
+      "y_cm": 3990.28,
+      "rot_deg": 90.0,
+      "grid": "I-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 10953.63,
+      "y_cm": 6166.78,
+      "rot_deg": 90.0,
+      "grid": "O-10",
+      "was_negative": false
+    },
+    {
+      "x_cm": 11672.13,
+      "y_cm": 6166.78,
+      "rot_deg": 90.0,
+      "grid": "P-10",
+      "was_negative": true
+    },
+    {
+      "x_cm": 10954.01,
+      "y_cm": 3990.28,
+      "rot_deg": 90.0,
+      "grid": "O-7",
+      "was_negative": false
+    },
+    {
+      "x_cm": 11672.13,
+      "y_cm": 3990.28,
+      "rot_deg": 90.0,
+      "grid": "P-7",
+      "was_negative": true
+    },
+    {
+      "x_cm": 10953.32,
+      "y_cm": 10072.85,
+      "rot_deg": 90.0,
+      "grid": "O-15",
+      "was_negative": false
+    },
+    {
+      "x_cm": 11671.81,
+      "y_cm": 10072.85,
+      "rot_deg": 90.0,
+      "grid": "P-15",
+      "was_negative": true
+    },
+    {
+      "x_cm": 11729.01,
+      "y_cm": 10875.26,
+      "rot_deg": 90.0,
+      "grid": "P-16",
+      "was_negative": false
+    },
+    {
+      "x_cm": 12447.13,
+      "y_cm": 10875.26,
+      "rot_deg": 90.0,
+      "grid": "Q-16",
+      "was_negative": true
+    },
+    {
+      "x_cm": 10953.63,
+      "y_cm": 80.55,
+      "rot_deg": 90.0,
+      "grid": "O-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 12446.51,
+      "y_cm": 80.55,
+      "rot_deg": 90.0,
+      "grid": "Q-1",
+      "was_negative": true
+    },
+    {
+      "x_cm": 5529.33,
+      "y_cm": 80.55,
+      "rot_deg": 90.0,
+      "grid": "H-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 6247.45,
+      "y_cm": 80.55,
+      "rot_deg": 90.0,
+      "grid": "I-1",
+      "was_negative": true
+    },
+    {
+      "x_cm": 916.78,
+      "y_cm": 80.55,
+      "rot_deg": 90.0,
+      "grid": "B-1",
+      "was_negative": false
+    },
+    {
+      "x_cm": 1597.45,
+      "y_cm": 80.55,
+      "rot_deg": 90.0,
+      "grid": "C-1",
+      "was_negative": true
+    },
+    {
+      "x_cm": 13202.06,
+      "y_cm": 10875.73,
+      "rot_deg": 0,
+      "grid": "R-16",
+      "was_negative": true
+    },
+    {
+      "x_cm": 7797.24,
+      "y_cm": 80.87,
+      "rot_deg": 90.0,
+      "grid": "K-1",
+      "was_negative": true
+    },
+    {
+      "x_cm": 7080.64,
+      "y_cm": 80.87,
+      "rot_deg": 90.0,
+      "grid": "J-1",
+      "was_negative": true
+    },
+    {
+      "x_cm": 11728.86,
+      "y_cm": 80.55,
+      "rot_deg": 270.0,
+      "grid": "P-1",
+      "was_negative": true
+    }
+  ],
+  "doors": [
+    {
+      "type": "SR",
+      "x_cm": 13067.9,
+      "y_cm": 6282.95,
+      "width_cm": 226.1,
+      "height_cm": 450.0,
+      "rot_deg": 0.0
+    },
+    {
+      "type": "SR",
+      "x_cm": 1102.27,
+      "y_cm": 7032.49,
+      "width_cm": 226.1,
+      "height_cm": 450.0,
+      "rot_deg": 0.0
+    },
+    {
+      "type": "SR",
+      "x_cm": 6646.27,
+      "y_cm": 117.5,
+      "width_cm": 226.1,
+      "height_cm": 450.0,
+      "rot_deg": 0.0
+    },
+    {
+      "type": "EXIT",
+      "x_cm": 4391.59,
+      "y_cm": -25.27,
+      "width_cm": 91.0,
+      "height_cm": 210.0,
+      "rot_deg": 90.0
+    },
+    {
+      "type": "EXIT",
+      "x_cm": 819.98,
+      "y_cm": 1017.82,
+      "width_cm": 91.0,
+      "height_cm": 210.0,
+      "rot_deg": 0
+    },
+    {
+      "type": "EXIT",
+      "x_cm": 7459.44,
+      "y_cm": -25.27,
+      "width_cm": 91.0,
+      "height_cm": 210.0,
+      "rot_deg": 90.0
+    },
+    {
+      "type": "EXIT",
+      "x_cm": 10582.93,
+      "y_cm": -25.27,
+      "width_cm": 91.0,
+      "height_cm": 210.0,
+      "rot_deg": 90.0
+    },
+    {
+      "type": "EXIT",
+      "x_cm": 13371.08,
+      "y_cm": 101.16,
+      "width_cm": 91.0,
+      "height_cm": 210.0,
+      "rot_deg": 90.0
+    },
+    {
+      "type": "EXIT",
+      "x_cm": 14554.3,
+      "y_cm": 4635.94,
+      "width_cm": 91.0,
+      "height_cm": 210.0,
+      "rot_deg": 270.0
+    },
+    {
+      "type": "EXIT",
+      "x_cm": 11781.43,
+      "y_cm": 4035.31,
+      "width_cm": 91.0,
+      "height_cm": 210.0,
+      "rot_deg": 270.0
+    }
+  ]
+}

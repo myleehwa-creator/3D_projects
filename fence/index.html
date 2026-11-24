@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Production Line Part Room 3D Layout (14.38m × 4.17m - Uline BL_1440)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow: hidden;
+      background-color: #1a1e24;
+      color: #e0e0e0;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #ui-panel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 410px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      background: rgba(28, 33, 40, 0.94);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+      z-index: 10;
+    }
+    h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffcc00;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #ffcc0022;
+      color: #ffcc00;
+      border: 1px solid #ffcc0066;
+    }
+    .desc {
+      font-size: 0.8rem;
+      color: #9aa0a6;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.28);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      font-size: 0.78rem;
+    }
+    .specs-item span {
+      color: #8ab4f8;
+      display: block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .specs-item strong {
+      color: #f0f6fc;
+      font-size: 0.82rem;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+    }
+    button {
+      flex: 1;
+      padding: 9px 12px;
+      background: #2d333b;
+      color: #e6edf3;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    button:hover {
+      background: #373e47;
+      border-color: #ffcc00;
+      color: #ffcc00;
+    }
+    button.active {
+      background: #ffcc00;
+      color: #111;
+      font-weight: 700;
+      border-color: #ffcc00;
+    }
+    #door-status {
+      font-size: 0.76rem;
+      color: #7ee787;
+      margin-top: 4px;
+      text-align: center;
+      font-weight: 600;
+      padding: 4px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+    }
+    .bom-section {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 10px;
+      margin-bottom: 12px;
+    }
+    .bom-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ffcc00;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    table.bom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.72rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    table.bom-table th, table.bom-table td {
+      padding: 5px 6px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    table.bom-table th {
+      color: #8ab4f8;
+      background: rgba(255, 255, 255, 0.04);
+      font-weight: 600;
+    }
+    .model-code {
+      color: #7ee787;
+      font-family: monospace;
+      font-weight: bold;
+    }
+    .cad-files {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 10px;
+      font-size: 0.75rem;
+    }
+    .cad-title {
+      font-weight: 600;
+      color: #58a6ff;
+      margin-bottom: 6px;
+    }
+    .file-tag {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 4px;
+      margin-bottom: 3px;
+      color: #c9d1d9;
+    }
+    #legend {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(28, 33, 40, 0.92);
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.74rem;
+      display: flex;
+      gap: 14px;
+      z-index: 10;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <div id="ui-panel">
+    <h1>Part Room Layout <span class="badge">Uline BL_1440 Only</span></h1>
+    <p class="desc">Engineered strictly with <strong>100% genuine Uline catalog parts</strong> (no custom sizes). Sized to <strong>14.38m × 4.17m</strong> with a 90° Hinged Door on the 4m side.</p>
+    
+    <div class="specs-grid">
+      <div class="specs-item">
+        <span>Actual Room Size</span>
+        <strong>14.38m × 4.17m</strong>
+      </div>
+      <div class="specs-item">
+        <span>Area (Footprint)</span>
+        <strong>59.9 m² (645 sq ft)</strong>
+      </div>
+      <div class="specs-item">
+        <span>Door Placement</span>
+        <strong style="color:#ffcc00">4M Side Line</strong>
+      </div>
+      <div class="specs-item">
+        <span>Door Model</span>
+        <strong style="color:#7ee787">H-5612-7 (4' × 7')</strong>
+      </div>
+      <div class="specs-item">
+        <span>Fence Height</span>
+        <strong>7.5 ft (2,286 mm)</strong>
+      </div>
+      <div class="specs-item">
+        <span>Floor Clearance</span>
+        <strong>6 in (152 mm)</strong>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <div class="btn-row">
+        <button id="btn-toggle-door" onclick="toggleDoor()">🚪 Open / Close Door (90°)</button>
+      </div>
+      <div id="door-status">Status: Door Closed (0°)</div>
+      <div class="btn-row">
+        <button id="btn-toggle-drywall" onclick="toggleDrywall()">🧱 Toggle Walls</button>
+        <button onclick="setView('door')">🎯 Focus on Door</button>
+      </div>
+      <div class="btn-row">
+        <button onclick="setView('iso')">Isometric</button>
+        <button onclick="setView('top')">Top View</button>
+        <button onclick="setView('inside')">Inside View</button>
+      </div>
+    </div>
+
+    <!-- Official Uline BOM Section -->
+    <div class="bom-section">
+      <div class="bom-title">
+        <span>📋 Official Uline BL_1440 BOM</span>
+        <span style="font-weight: normal; color: #8ab4f8;">Total 18 Items</span>
+      </div>
+      <table class="bom-table">
+        <thead>
+          <tr>
+            <th>Model #</th>
+            <th>Description</th>
+            <th>Qty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="model-code">H-5607-7</td>
+            <td>7-1/2' Safety Yellow Post (2"×2")</td>
+            <td><strong>10</strong></td>
+          </tr>
+          <tr>
+            <td class="model-code">H-5611-7</td>
+            <td>8' × 7' Wire Mesh Panel (Front)</td>
+            <td><strong>5</strong></td>
+          </tr>
+          <tr>
+            <td class="model-code">H-5610-7</td>
+            <td>6' × 7' Wire Mesh Panel (Front)</td>
+            <td><strong>1</strong></td>
+          </tr>
+          <tr>
+            <td class="model-code">H-10462-7</td>
+            <td>5' × 7' Wire Mesh Panel (Side)</td>
+            <td><strong>1</strong></td>
+          </tr>
+          <tr>
+            <td class="model-code">H-5609-7</td>
+            <td>4' × 7' Wire Mesh Panel (Side)</td>
+            <td><strong>1</strong></td>
+          </tr>
+          <tr>
+            <td class="model-code">H-5612-7</td>
+            <td>4' × 7' Single Hinged Door (Side)</td>
+            <td><strong>1</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cad-files">
+      <div class="cad-title">📁 Linked Inventor CAD Files (.iam / .stp)</div>
+      <div class="file-tag">
+        <span>Part_Room_Fence_Assembly.iam</span>
+        <span style="color:#7ee787">Inventor 2026</span>
+      </div>
+      <div class="file-tag">
+        <span>Part_Room_Fence_Assembly.stp</span>
+        <span style="color:#58a6ff">STEP AP214</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="legend">
+    <div class="legend-item">
+      <div class="color-dot" style="background:#e6a100;"></div>
+      <span>H-5607-7 Yellow Post</span>
+    </div>
+    <div class="legend-item">
+      <div class="color-dot" style="background:#222; border:1px solid #555;"></div>
+      <span>Wire Mesh Panels</span>
+    </div>
+    <div class="legend-item">
+      <div class="color-dot" style="background:#3b82f6;"></div>
+      <span>H-5612-7 4ft Door</span>
+    </div>
+    <div class="legend-item">
+      <div class="color-dot" style="background:#dedede;"></div>
+      <span>Drywall Walls (3m)</span>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x181c22);
+    scene.fog = new THREE.FogExp2(0x181c22, 0.015);
+
+    // Exact catalog geometry dimensions (in meters)
+    const POST_W = 0.0508;  // 2 inches
+    const HALF_P = 0.0254;  // 1 inch
+    const ROOM_L = 14.3764; // Length (X)
+    const ROOM_W = 4.1656;  // Width (Z)
+    
+    // Centers of Corner Post
+    const CORNER_X = ROOM_L - HALF_P; // 14.3510 m
+    const CORNER_Z = ROOM_W - HALF_P; // 4.1402 m
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(22, 14, 18);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.target.set(ROOM_L / 2, 1.2, ROOM_W / 2);
+
+    // Lights
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.65);
+    scene.add(hemiLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.95);
+    dirLight.position.set(18, 25, 20);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.camera.near = 0.5;
+    dirLight.shadow.camera.far = 60;
+    dirLight.shadow.camera.left = -20;
+    dirLight.shadow.camera.right = 20;
+    dirLight.shadow.camera.top = 20;
+    dirLight.shadow.camera.bottom = -20;
+    scene.add(dirLight);
+
+    const fillLight = new THREE.DirectionalLight(0x88bbff, 0.4);
+    fillLight.position.set(-15, 10, -10);
+    scene.add(fillLight);
+
+    // Materials
+    const floorMat = new THREE.MeshStandardMaterial({
+      color: 0x2e343d,
+      roughness: 0.6,
+      metalness: 0.1
+    });
+    const yellowLineMat = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
+
+    const drywallMat = new THREE.MeshStandardMaterial({
+      color: 0xdcdcdc,
+      roughness: 0.9,
+      metalness: 0.05,
+      transparent: true,
+      opacity: 1.0
+    });
+
+    const postMat = new THREE.MeshStandardMaterial({
+      color: 0xf59e0b, // Safety Yellow
+      roughness: 0.4,
+      metalness: 0.2
+    });
+
+    const meshFrameMat = new THREE.MeshStandardMaterial({
+      color: 0x1f2328,
+      roughness: 0.5,
+      metalness: 0.3
+    });
+
+    // Wire Mesh texture simulation
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#111';
+    ctx.fillRect(0, 0, 64, 64);
+    ctx.strokeStyle = '#666';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(2, 2, 60, 60);
+    const meshTex = new THREE.CanvasTexture(canvas);
+    meshTex.wrapS = THREE.RepeatWrapping;
+    meshTex.wrapT = THREE.RepeatWrapping;
+
+    const meshScreenMat = new THREE.MeshStandardMaterial({
+      color: 0x2a2d32,
+      roughness: 0.7,
+      metalness: 0.5,
+      map: meshTex,
+      transparent: true,
+      opacity: 0.85
+    });
+
+    // Factory Concrete Floor
+    const floorGeo = new THREE.BoxGeometry(ROOM_L + 8, 0.2, ROOM_W + 8);
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.position.set(ROOM_L / 2, -0.1, ROOM_W / 2);
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    const grid = new THREE.GridHelper(30, 30, 0x4f5666, 0x282e38);
+    grid.position.set(ROOM_L / 2, 0.01, ROOM_W / 2);
+    scene.add(grid);
+
+    // Safety Yellow Stripes along perimeter
+    function addFloorStripe(x1, z1, x2, z2) {
+      const len = Math.hypot(x2 - x1, z2 - z1);
+      const angle = Math.atan2(z2 - z1, x2 - x1);
+      const stripeGeo = new THREE.PlaneGeometry(len, 0.12);
+      const stripe = new THREE.Mesh(stripeGeo, yellowLineMat);
+      stripe.rotation.x = -Math.PI / 2;
+      stripe.rotation.z = -angle;
+      stripe.position.set((x1 + x2) / 2, 0.02, (z1 + z2) / 2);
+      scene.add(stripe);
+    }
+    addFloorStripe(0, ROOM_W, ROOM_L, ROOM_W);
+    addFloorStripe(ROOM_L, 0, ROOM_L, ROOM_W);
+
+    // Drywall Group (Back Wall & Side Wall)
+    const drywallGroup = new THREE.Group();
+    const backWallGeo = new THREE.BoxGeometry(ROOM_L + 0.3, 3.0, 0.15);
+    const backWall = new THREE.Mesh(backWallGeo, drywallMat);
+    backWall.position.set(ROOM_L / 2, 1.5, -0.075);
+    backWall.castShadow = true;
+    backWall.receiveShadow = true;
+    drywallGroup.add(backWall);
+
+    const sideWallGeo = new THREE.BoxGeometry(0.15, 3.0, ROOM_W + 0.3);
+    const sideWall = new THREE.Mesh(sideWallGeo, drywallMat);
+    sideWall.position.set(-0.075, 1.5, ROOM_W / 2);
+    sideWall.castShadow = true;
+    sideWall.receiveShadow = true;
+    drywallGroup.add(sideWall);
+    scene.add(drywallGroup);
+
+    // Fence Group
+    const fenceGroup = new THREE.Group();
+    const postGeo = new THREE.BoxGeometry(0.0508, 2.286, 0.0508);
+    const basePlateGeo = new THREE.BoxGeometry(0.1524, 0.01, 0.1524);
+
+    function createPost(x, z) {
+      const postMesh = new THREE.Mesh(postGeo, postMat);
+      postMesh.position.set(x, 2.286 / 2, z);
+      postMesh.castShadow = true;
+      postMesh.receiveShadow = true;
+
+      const basePlate = new THREE.Mesh(basePlateGeo, postMat);
+      basePlate.position.set(x, 0.005, z);
+      basePlate.receiveShadow = true;
+
+      fenceGroup.add(postMesh);
+      fenceGroup.add(basePlate);
+    }
+
+    function createPanelMesh(len, height = 2.1336) {
+      const group = new THREE.Group();
+      const frameThick = 0.032;
+      const t = frameThick;
+      const h = height;
+
+      const topBar = new THREE.Mesh(new THREE.BoxGeometry(len, t, t), meshFrameMat);
+      topBar.position.set(0, h - t/2, 0);
+      group.add(topBar);
+
+      const btmBar = new THREE.Mesh(new THREE.BoxGeometry(len, t, t), meshFrameMat);
+      btmBar.position.set(0, t/2, 0);
+      group.add(btmBar);
+
+      const lBar = new THREE.Mesh(new THREE.BoxGeometry(t, h, t), meshFrameMat);
+      lBar.position.set(-len/2 + t/2, h/2, 0);
+      group.add(lBar);
+
+      const rBar = new THREE.Mesh(new THREE.BoxGeometry(t, h, t), meshFrameMat);
+      rBar.position.set(len/2 - t/2, h/2, 0);
+      group.add(rBar);
+
+      const meshMatInstance = meshScreenMat.clone();
+      meshMatInstance.map = meshTex.clone();
+      meshMatInstance.map.repeat.set(Math.round(len * 15), Math.round(h * 15));
+      meshMatInstance.map.needsUpdate = true;
+
+      const meshScreen = new THREE.Mesh(new THREE.BoxGeometry(len - t*2, h - t*2, 0.005), meshMatInstance);
+      meshScreen.position.set(0, h/2, 0);
+      group.add(meshScreen);
+      return group;
+    }
+
+    function createPanel(x1, z1, x2, z2, height = 2.1336, sweep = 0.1524) {
+      const len = Math.hypot(x2 - x1, z2 - z1);
+      const angle = Math.atan2(z2 - z1, x2 - x1);
+      const panelGroup = createPanelMesh(len, height);
+      panelGroup.position.set((x1 + x2)/2, sweep, (z1 + z2)/2);
+      panelGroup.rotation.y = -angle;
+      fenceGroup.add(panelGroup);
+      return panelGroup;
+    }
+
+    // ==========================================
+    // 1. 4M SIDE LINE (X = CORNER_X = 14.3510m)
+    // Zero-gap assembly:
+    // Post 1 (Wall End): Z = 0.0254m (Face: 0 to 0.0508m)
+    // 5ft Panel (H-10462-7: 1.524m): Z = 0.0508 to 1.5748m
+    // Post 2: Z = 1.6002m (Face: 1.5748 to 1.6256m)
+    // 4ft Panel (H-5609-7: 1.2192m): Z = 1.6256 to 2.8448m
+    // Post 3 (Door Hinge Post): Z = 2.8702m (Face: 2.8448 to 2.8956m)
+    // 4ft Hinged Door (H-5612-7: 1.2192m): Z = 2.8956 to 4.1148m
+    // Post 4 (Corner Strike Post): Z = 4.1402m (Face: 4.1148 to 4.1656m)
+    // --> Strike edge of door directly touches Post 4 face at Z = 4.1148m (ZERO GAP!)
+    // ==========================================
+    createPost(CORNER_X, 0.0254);
+    createPost(CORNER_X, 1.6002);
+    createPost(CORNER_X, 2.8702); // Door Hinge Post
+    createPost(CORNER_X, CORNER_Z); // Post 4 (Corner Strike Post)
+
+    // H-10462-7 (5ft Panel): Z from 0.0508 to 1.5748
+    createPanel(CORNER_X, 0.0508, CORNER_X, 1.5748);
+
+    // H-5609-7 (4ft Panel): Z from 1.6256 to 2.8448
+    createPanel(CORNER_X, 1.6256, CORNER_X, 2.8448);
+
+    // H-5612-7 (4ft Hinged Door): Pivot anchored EXACTLY at Hinge Post face Z = 2.8956
+    const doorPivot = new THREE.Group();
+    doorPivot.position.set(CORNER_X, 0.1524, 2.8956); // EXACT HINGE AXIS
+
+    const doorW = 1.2192; // 4ft (1,219.2 mm)
+    const frameT = 0.032;
+    const doorH = 2.1336;
+
+    const doorLeaf = new THREE.Group();
+    // Top & Bottom horizontal rails (from Z = 0 to Z = doorW)
+    const dTop = new THREE.Mesh(new THREE.BoxGeometry(frameT, frameT, doorW), meshFrameMat);
+    dTop.position.set(0, doorH - frameT/2, doorW / 2);
+    doorLeaf.add(dTop);
+
+    const dBtm = new THREE.Mesh(new THREE.BoxGeometry(frameT, frameT, doorW), meshFrameMat);
+    dBtm.position.set(0, frameT/2, doorW / 2);
+    doorLeaf.add(dBtm);
+
+    // Hinge stile (at Z = frameT/2)
+    const dHingeStile = new THREE.Mesh(new THREE.BoxGeometry(frameT, doorH, frameT), meshFrameMat);
+    dHingeStile.position.set(0, doorH/2, frameT/2);
+    doorLeaf.add(dHingeStile);
+
+    // Latch stile (at Z = doorW - frameT/2): closes flush against Corner Strike Post!
+    const dLatchStile = new THREE.Mesh(new THREE.BoxGeometry(frameT, doorH, frameT), meshFrameMat);
+    dLatchStile.position.set(0, doorH/2, doorW - frameT/2);
+    doorLeaf.add(dLatchStile);
+
+    const dMeshMat = meshScreenMat.clone();
+    dMeshMat.map = meshTex.clone();
+    dMeshMat.map.repeat.set(Math.round(doorW * 15), Math.round(doorH * 15));
+    dMeshMat.map.needsUpdate = true;
+    const dMeshScreen = new THREE.Mesh(new THREE.BoxGeometry(0.005, doorH - frameT*2, doorW - frameT*2), dMeshMat);
+    dMeshScreen.position.set(0, doorH/2, doorW / 2);
+    doorLeaf.add(dMeshScreen);
+
+    // Handle & Padlock Hasp on strike edge
+    const handleMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, metalness: 0.8, roughness: 0.2 });
+    const handle = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.16, 0.04), handleMat);
+    handle.position.set(0.04, 1.05, doorW - 0.08);
+    doorLeaf.add(handle);
+
+    // Hinge cylinders mounted on Post 3 face (Z = 0)
+    const hingeCylGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.08, 16);
+    const hingeMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.9, roughness: 0.2 });
+    const topHinge = new THREE.Mesh(hingeCylGeo, hingeMat);
+    topHinge.position.set(0, doorH - 0.2, 0);
+    doorPivot.add(topHinge);
+    const btmHinge = new THREE.Mesh(hingeCylGeo, hingeMat);
+    btmHinge.position.set(0, 0.2, 0);
+    doorPivot.add(btmHinge);
+
+    doorPivot.add(doorLeaf);
+
+    // 90° Swing Arc on floor
+    const arcGeo = new THREE.BufferGeometry();
+    const arcPoints = [];
+    for (let a = 0; a <= Math.PI / 2; a += Math.PI / 32) {
+      arcPoints.push(new THREE.Vector3(Math.sin(a) * doorW, 0.03, Math.cos(a) * doorW));
+    }
+    arcGeo.setFromPoints(arcPoints);
+    const arcLine = new THREE.Line(arcGeo, new THREE.LineDashedMaterial({ color: 0x3b82f6, dashSize: 0.1, gapSize: 0.05 }));
+    arcLine.computeLineDistances();
+    doorPivot.add(arcLine);
+
+    fenceGroup.add(doorPivot);
+
+    // ==========================================
+    // 2. 14M FRONT LINE (Z = CORNER_Z = 4.1402m)
+    // 5 x 8ft Panels + 1 x 6ft Panel to Corner Post
+    // ==========================================
+    const frontPostsX = [0.0254, 2.5146, 5.0038, 7.4930, 9.9822, 12.4714];
+    frontPostsX.forEach(px => createPost(px, CORNER_Z));
+
+    // 5 × H-5611-7 (8ft Panels)
+    createPanel(0.0508, CORNER_Z, 2.4892, CORNER_Z);
+    createPanel(2.5400, CORNER_Z, 4.9784, CORNER_Z);
+    createPanel(5.0292, CORNER_Z, 7.4676, CORNER_Z);
+    createPanel(7.5184, CORNER_Z, 9.9568, CORNER_Z);
+    createPanel(10.0076, CORNER_Z, 12.4460, CORNER_Z);
+    // 1 × H-5610-7 (6ft Panel from 12.4968 to 14.3256)
+    createPanel(12.4968, CORNER_Z, 14.3256, CORNER_Z);
+
+    scene.add(fenceGroup);
+
+    // Interior Shelving & Workstation Preview
+    const rackMat = new THREE.MeshStandardMaterial({ color: 0x4a7c59, roughness: 0.6 });
+    function addRack(x, z, w, d, h) {
+      const rack = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), rackMat);
+      rack.position.set(x, h/2, z);
+      rack.castShadow = true;
+      scene.add(rack);
+    }
+    for (let rx = 2; rx <= 12; rx += 2.5) {
+      addRack(rx, 0.6, 2.0, 0.8, 2.4);
+    }
+    const tableMat = new THREE.MeshStandardMaterial({ color: 0x374151, roughness: 0.5 });
+    const table = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.9, 1.2), tableMat);
+    table.position.set(6.5, 0.45, 2.4);
+    table.castShadow = true;
+    scene.add(table);
+
+    // Door Animation: Exactly 90-degree outward swing
+    let doorOpen = false;
+    let targetAngle = 0;
+    function toggleDoor() {
+      doorOpen = !doorOpen;
+      targetAngle = doorOpen ? (Math.PI / 2) : 0;
+      document.getElementById('btn-toggle-door').classList.toggle('active', doorOpen);
+      document.getElementById('door-status').innerHTML = doorOpen 
+        ? '<span style="color:#ffcc00">Status: Door Open (90° Outward)</span>'
+        : 'Status: Door Closed (0°)';
+    }
+
+    let drywallTransparent = false;
+    function toggleDrywall() {
+      drywallTransparent = !drywallTransparent;
+      drywallMat.opacity = drywallTransparent ? 0.25 : 1.0;
+      document.getElementById('btn-toggle-drywall').classList.toggle('active', drywallTransparent);
+    }
+
+    function setView(view) {
+      if (view === 'iso') {
+        gsapToCamera(20, 12, 18, ROOM_L / 2, 1.2, ROOM_W / 2);
+      } else if (view === 'top') {
+        gsapToCamera(ROOM_L / 2, 24, ROOM_W / 2, ROOM_L / 2, 0, ROOM_W / 2);
+      } else if (view === 'inside') {
+        gsapToCamera(4, 1.6, 2.5, 12, 1.4, 2);
+      } else if (view === 'door') {
+        gsapToCamera(ROOM_L + 3, 3, 3, ROOM_L, 1.2, 3);
+      }
+    }
+
+    function gsapToCamera(px, py, pz, tx, ty, tz) {
+      camera.position.set(px, py, pz);
+      controls.target.set(tx, ty, tz);
+      controls.update();
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      doorPivot.rotation.y += (targetAngle - doorPivot.rotation.y) * 0.08;
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>

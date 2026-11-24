@@ -1,0 +1,9 @@
+# Autodesk Inventor & CAD Temp/Backup Files
+**/OldVersions/
+**/*.lck
+**/*.tmp
+**/*.bak
+
+# Python
+**/__pycache__/
+**/*.pyc

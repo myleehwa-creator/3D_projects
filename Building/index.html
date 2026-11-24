@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factory Building 3D Digital Twin (148.3m × 108.9m × 10.0m H - R1~R7 Expansion)</title>
+  <!-- Three.js and OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow: hidden;
+      background-color: #12161c;
+      color: #e0e0e0;
+      user-select: none;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #ui-panel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 440px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      background: rgba(22, 27, 34, 0.94);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
+      z-index: 10;
+    }
+    #ui-panel::-webkit-scrollbar { width: 6px; }
+    #ui-panel::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+    h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #58a6ff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #388bfd22;
+      color: #58a6ff;
+      border: 1px solid #388bfd55;
+    }
+    .badge-green {
+      background: #23863622;
+      color: #3fb950;
+      border: 1px solid #23863655;
+    }
+    .desc {
+      font-size: 0.8rem;
+      color: #8b949e;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      font-size: 0.78rem;
+    }
+    .specs-item span {
+      color: #79c0ff;
+      display: block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .specs-item strong {
+      color: #f0f6fc;
+      font-size: 0.84rem;
+    }
+    .section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #8b949e;
+      margin: 12px 0 6px 0;
+      font-weight: 700;
+    }
+    .btn-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    button {
+      flex: 1;
+      padding: 8px 10px;
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    button:hover {
+      background: #30363d;
+      border-color: #8b949e;
+      color: #fff;
+    }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+      margin-bottom: 5px;
+      font-size: 0.8rem;
+    }
+    .toggle-row input[type="checkbox"] {
+      cursor: pointer;
+      accent-color: #58a6ff;
+      transform: scale(1.15);
+    }
+    .slider-box {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+      padding: 8px;
+      margin-bottom: 12px;
+    }
+    .slider-box label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+      color: #c9d1d9;
+    }
+    .slider-box input[type="range"] {
+      width: 100%;
+      accent-color: #58a6ff;
+    }
+    #tooltip {
+      position: absolute;
+      display: none;
+      pointer-events: none;
+      background: rgba(13, 17, 23, 0.95);
+      border: 1px solid #58a6ff;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      z-index: 100;
+      line-height: 1.4;
+    }
+    #tooltip strong { color: #58a6ff; font-size: 0.9rem; }
+    .nav-compass {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(22, 27, 34, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.75rem;
+      color: #8b949e;
+      z-index: 10;
+    }
+    .file-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: #23863622;
+      border: 1px solid #23863666;
+      border-radius: 6px;
+      color: #3fb950;
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .file-badge:hover {
+      background: #23863644;
+      border-color: #3fb950;
+      color: #56d364;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="canvas-container"></div>
+
+  <div id="ui-panel">
+    <h1>
+      🏭 Factory 3D Digital Twin
+      <span class="badge">10m Height</span>
+      <span class="badge badge-green">R1~R7 Expansion</span>
+    </h1>
+    <div class="desc">
+      Parametric 3D CAD model based on <code>building.dwg</code>.<br>
+      Features 132 Wide-Flange H-Beam columns, 10m perimeter walls, and the <strong>East R1~R7 3-Tier Stepped Expansion (148.3m)</strong>.
+    </div>
+
+    <div class="specs-grid">
+      <div class="specs-item">
+        <span>Overall Footprint</span>
+        <strong>148.3m × 108.9m</strong>
+      </div>
+      <div class="specs-item">
+        <span>Ceiling / Column Height</span>
+        <strong>10.0 m (10,000 mm)</strong>
+      </div>
+      <div class="specs-item">
+        <span>Total Floor Area</span>
+        <strong>~15,280 m² (~164,470 sq ft)</strong>
+      </div>
+      <div class="specs-item">
+        <span>Steel Columns</span>
+        <strong>132 EA (W12 H-Beam)</strong>
+      </div>
+      <div class="specs-item">
+        <span>Wall Thickness / Spec</span>
+        <strong>305.9 mm (12" Panels)</strong>
+      </div>
+      <div class="specs-item">
+        <span>R1~R7 Expansion Wing</span>
+        <strong>East 3-Tier Stepped Wing</strong>
+      </div>
+    </div>
+
+    <div class="section-title">Camera View Presets</div>
+    <div class="btn-row">
+      <button onclick="setCamera('iso')">3D Isometric View</button>
+      <button onclick="setCamera('top')">Floor Plan (Top View)</button>
+    </div>
+    <div class="btn-row">
+      <button onclick="setCamera('expansion')">Focus on R1~R7 Expansion</button>
+      <button onclick="setCamera('front')">South Elevation</button>
+      <button onclick="setCamera('side')">West Elevation</button>
+    </div>
+
+    <div class="section-title">Component Visibility</div>
+    <div class="toggle-row">
+      <span>Structural Steel Columns (132 EA)</span>
+      <input type="checkbox" id="chk-cols" checked onchange="toggleColumns(this.checked)">
+    </div>
+    <div class="toggle-row">
+      <span>Perimeter Walls (18 Segments)</span>
+      <input type="checkbox" id="chk-walls" checked onchange="toggleWalls(this.checked)">
+    </div>
+    <div class="toggle-row">
+      <span>Wall Translucency (X-Ray 50%)</span>
+      <input type="checkbox" id="chk-trans" checked onchange="toggleWallTrans(this.checked)">
+    </div>
+    <div class="toggle-row">
+      <span>Concrete Floor Slab & Foundation</span>
+      <input type="checkbox" id="chk-floor" checked onchange="toggleFloor(this.checked)">
+    </div>
+    <div class="toggle-row">
+      <span>Industrial Doors (3 Roll-up / 7 Exit)</span>
+      <input type="checkbox" id="chk-doors" checked onchange="toggleDoors(this.checked)">
+    </div>
+    <div class="toggle-row">
+      <span>Grid Lines & A-R, 1-16 Labels</span>
+      <input type="checkbox" id="chk-grid" checked onchange="toggleGrid(this.checked)">
+    </div>
+    <div class="toggle-row" style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3);">
+      <span style="color: #ffb703; font-weight: 600;">Highlight R1~R7 Expansion Walls (Amber)</span>
+      <input type="checkbox" id="chk-exp-highlight" onchange="toggleExpansionHighlight(this.checked)">
+    </div>
+
+    <div class="section-title">Section Cutaway (Horizontal Z-Clip)</div>
+    <div class="slider-box">
+      <label>
+        <span>Cut Height (Elevation)</span>
+        <span id="clip-val">10.0 m (Full Height)</span>
+      </label>
+      <input type="range" id="clip-range" min="0.5" max="10.0" step="0.2" value="10.0" oninput="updateClipPlane(this.value)">
+    </div>
+
+    <div class="section-title">Generated CAD Deliverables</div>
+    <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+      <a class="file-badge" href="Building_Assembly.iam" download>📦 Building_Assembly.iam (Autodesk Inventor Master Assembly)</a>
+      <a class="file-badge" href="Building_Assembly.stp" download>📐 Building_Assembly.stp (Universal STEP AP214 Model)</a>
+      <a class="file-badge" href="Column_HBeam_W12.ipt" download>🔩 Column_HBeam_W12.ipt (Parametric Column Part)</a>
+      <a class="file-badge" href="Factory_Outer_Walls.ipt" download>🧱 Factory_Outer_Walls.ipt (18-Segment Outer Walls Part)</a>
+    </div>
+  </div>
+
+  <div id="tooltip"></div>
+  <div class="nav-compass">
+    Compass: +Y = North | +X = East (R1~R7 Expansion) | Origin = Grid A1
+  </div>
+
+  <script>
+    const BUILDING_DATA = {"grid_x": {"A": 13.43, "B": 788.43, "C": 1563.43, "D": 2338.43, "E": 3113.43, "F": 3888.43, "G": 4663.43, "H": 5438.43, "I": 6213.43, "J": 6988.43, "K": 7763.43, "L": 8538.43, "M": 9313.43, "N": 10088.43, "O": 10863.43, "P": 11638.43, "Q": 12413.43, "R": 13139.99}, "grid_y": {"1": -0.0, "16": 10554.0, "15": 9850.4, "14": 9146.8, "13": 8443.2, "12": 7739.6, "11": 7036.0, "10": 6332.4, "9": 5628.8, "8": 4925.2, "7": 4221.6, "6": 3518.0, "5": 2814.4, "4": 2110.8, "3": 1407.2, "2": 703.6}, "columns": [{"x_cm": 7825.5, "y_cm": 10875.73, "rot_deg": 0, "grid": "K-16", "was_negative": false}, {"x_cm": 8600.5, "y_cm": 10875.73, "rot_deg": 0, "grid": "L-16", "was_negative": false}, {"x_cm": 9375.5, "y_cm": 10875.73, "rot_deg": 0, "grid": "M-16", "was_negative": false}, {"x_cm": 10150.5, "y_cm": 10875.73, "rot_deg": 0, "grid": "N-16", "was_negative": false}, {"x_cm": 10925.5, "y_cm": 10875.73, "rot_deg": 0, "grid": "O-16", "was_negative": false}, {"x_cm": 11700.5, "y_cm": 10875.73, "rot_deg": 0, "grid": "P-16", "was_negative": false}, {"x_cm": 12475.5, "y_cm": 10875.73, "rot_deg": 0, "grid": "Q-16", "was_negative": false}, {"x_cm": 888.74, "y_cm": 10072.69, "rot_deg": 0, "grid": "B-15", "was_negative": false}, {"x_cm": 1625.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "C-15", "was_negative": false}, {"x_cm": 2400.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "D-15", "was_negative": false}, {"x_cm": 3175.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "E-15", "was_negative": false}, {"x_cm": 3950.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "F-15", "was_negative": false}, {"x_cm": 4725.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "G-15", "was_negative": false}, {"x_cm": 5500.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "H-15", "was_negative": false}, {"x_cm": 6275.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "I-15", "was_negative": false}, {"x_cm": 7050.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "J-15", "was_negative": false}, {"x_cm": 7825.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "K-15", "was_negative": false}, {"x_cm": 8600.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "L-15", "was_negative": false}, {"x_cm": 9375.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "M-15", "was_negative": false}, {"x_cm": 10150.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "N-15", "was_negative": false}, {"x_cm": 10925.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "O-15", "was_negative": false}, {"x_cm": 11700.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "P-15", "was_negative": false}, {"x_cm": 12475.5, "y_cm": 10072.69, "rot_deg": 0, "grid": "Q-15", "was_negative": false}, {"x_cm": 13202.06, "y_cm": 10072.69, "rot_deg": 0, "grid": "R-15", "was_negative": false}, {"x_cm": 891.29, "y_cm": 9422.61, "rot_deg": 90.0, "grid": "B-14", "was_negative": false}, {"x_cm": 891.29, "y_cm": 8718.99, "rot_deg": 90.0, "grid": "B-13", "was_negative": false}, {"x_cm": 891.29, "y_cm": 8015.38, "rot_deg": 90.0, "grid": "B-12", "was_negative": false}, {"x_cm": 891.29, "y_cm": 7311.76, "rot_deg": 90.0, "grid": "B-11", "was_negative": false}, {"x_cm": 100.99, "y_cm": 6118.66, "rot_deg": 90.0, "grid": "A-10", "was_negative": false}, {"x_cm": 98.44, "y_cm": 6592.84, "rot_deg": 0, "grid": "A-10", "was_negative": false}, {"x_cm": 891.29, "y_cm": 6624.71, "rot_deg": 90.0, "grid": "B-10", "was_negative": false}, {"x_cm": 100.99, "y_cm": 5598.6, "rot_deg": 90.0, "grid": "A-9", "was_negative": false}, {"x_cm": 100.99, "y_cm": 5078.53, "rot_deg": 90.0, "grid": "A-8", "was_negative": false}, {"x_cm": 100.99, "y_cm": 4558.47, "rot_deg": 90.0, "grid": "A-7", "was_negative": false}, {"x_cm": 100.99, "y_cm": 4038.4, "rot_deg": 90.0, "grid": "A-7", "was_negative": false}, {"x_cm": 100.99, "y_cm": 3561.67, "rot_deg": 90.0, "grid": "A-6", "was_negative": false}, {"x_cm": 891.29, "y_cm": 2845.31, "rot_deg": 90.0, "grid": "B-5", "was_negative": false}, {"x_cm": 891.29, "y_cm": 3539.37, "rot_deg": 90.0, "grid": "B-6", "was_negative": false}, {"x_cm": 891.29, "y_cm": 2141.69, "rot_deg": 90.0, "grid": "B-4", "was_negative": false}, {"x_cm": 891.29, "y_cm": 1438.07, "rot_deg": 90.0, "grid": "B-3", "was_negative": false}, {"x_cm": 891.29, "y_cm": 734.45, "rot_deg": 90.0, "grid": "B-2", "was_negative": false}, {"x_cm": 888.74, "y_cm": 80.54, "rot_deg": 0, "grid": "B-1", "was_negative": false}, {"x_cm": 1625.5, "y_cm": 80.54, "rot_deg": 0, "grid": "C-1", "was_negative": false}, {"x_cm": 2400.5, "y_cm": 80.54, "rot_deg": 0, "grid": "D-1", "was_negative": false}, {"x_cm": 3175.5, "y_cm": 80.54, "rot_deg": 0, "grid": "E-1", "was_negative": false}, {"x_cm": 3950.5, "y_cm": 80.54, "rot_deg": 0, "grid": "F-1", "was_negative": false}, {"x_cm": 4725.5, "y_cm": 80.54, "rot_deg": 0, "grid": "G-1", "was_negative": false}, {"x_cm": 5500.5, "y_cm": 80.54, "rot_deg": 0, "grid": "H-1", "was_negative": false}, {"x_cm": 6275.5, "y_cm": 80.54, "rot_deg": 0, "grid": "I-1", "was_negative": false}, {"x_cm": 7050.5, "y_cm": 80.54, "rot_deg": 0, "grid": "J-1", "was_negative": false}, {"x_cm": 7825.5, "y_cm": 80.54, "rot_deg": 0, "grid": "K-1", "was_negative": false}, {"x_cm": 8600.5, "y_cm": 80.54, "rot_deg": 0, "grid": "L-1", "was_negative": false}, {"x_cm": 9375.5, "y_cm": 80.54, "rot_deg": 0, "grid": "M-1", "was_negative": false}, {"x_cm": 10150.5, "y_cm": 80.54, "rot_deg": 0, "grid": "N-1", "was_negative": false}, {"x_cm": 10925.5, "y_cm": 80.54, "rot_deg": 0, "grid": "O-1", "was_negative": false}, {"x_cm": 11700.5, "y_cm": 80.54, "rot_deg": 0, "grid": "P-1", "was_negative": false}, {"x_cm": 12475.5, "y_cm": 80.54, "rot_deg": 0, "grid": "Q-1", "was_negative": false}, {"x_cm": 13202.06, "y_cm": 80.54, "rot_deg": 0, "grid": "R-1", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 9422.61, "rot_deg": 90.0, "grid": "R-14", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 8718.99, "rot_deg": 90.0, "grid": "R-13", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 8015.38, "rot_deg": 90.0, "grid": "R-12", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 7311.76, "rot_deg": 90.0, "grid": "R-11", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 6608.14, "rot_deg": 90.0, "grid": "R-10", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 734.45, "rot_deg": 90.0, "grid": "R-2", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 1438.07, "rot_deg": 90.0, "grid": "R-3", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 2141.69, "rot_deg": 90.0, "grid": "R-4", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 2845.31, "rot_deg": 90.0, "grid": "R-5", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 3548.93, "rot_deg": 90.0, "grid": "R-6", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 4160.77, "rot_deg": 90.0, "grid": "R-7", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 4772.61, "rot_deg": 90.0, "grid": "R-8", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 5384.45, "rot_deg": 90.0, "grid": "R-9", "was_negative": false}, {"x_cm": 13217.36, "y_cm": 5996.3, "rot_deg": 90.0, "grid": "R-10", "was_negative": false}, {"x_cm": 888.74, "y_cm": 6166.78, "rot_deg": 0, "grid": "B-10", "was_negative": false}, {"x_cm": 888.74, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "B-7", "was_negative": true}, {"x_cm": 1625.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "C-10", "was_negative": false}, {"x_cm": 1625.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "C-7", "was_negative": true}, {"x_cm": 2400.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "D-10", "was_negative": false}, {"x_cm": 2400.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "D-7", "was_negative": true}, {"x_cm": 3175.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "E-10", "was_negative": false}, {"x_cm": 3175.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "E-7", "was_negative": true}, {"x_cm": 3950.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "F-10", "was_negative": false}, {"x_cm": 3950.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "F-7", "was_negative": true}, {"x_cm": 4725.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "G-10", "was_negative": false}, {"x_cm": 4725.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "G-7", "was_negative": true}, {"x_cm": 5500.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "H-10", "was_negative": false}, {"x_cm": 5500.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "H-7", "was_negative": true}, {"x_cm": 6275.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "I-10", "was_negative": false}, {"x_cm": 6275.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "I-7", "was_negative": true}, {"x_cm": 7050.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "J-10", "was_negative": false}, {"x_cm": 7050.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "J-7", "was_negative": true}, {"x_cm": 7825.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "K-10", "was_negative": false}, {"x_cm": 7825.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "K-7", "was_negative": true}, {"x_cm": 8600.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "L-10", "was_negative": false}, {"x_cm": 8600.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "L-7", "was_negative": true}, {"x_cm": 9375.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "M-10", "was_negative": false}, {"x_cm": 9375.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "M-7", "was_negative": true}, {"x_cm": 10150.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "N-10", "was_negative": false}, {"x_cm": 10150.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "N-7", "was_negative": true}, {"x_cm": 10925.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "O-10", "was_negative": false}, {"x_cm": 10925.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "O-7", "was_negative": true}, {"x_cm": 11700.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "P-10", "was_negative": false}, {"x_cm": 11700.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "P-7", "was_negative": true}, {"x_cm": 12475.5, "y_cm": 6166.78, "rot_deg": 0, "grid": "Q-10", "was_negative": false}, {"x_cm": 12475.5, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "Q-7", "was_negative": true}, {"x_cm": 13202.06, "y_cm": 6166.78, "rot_deg": 0, "grid": "R-10", "was_negative": false}, {"x_cm": 13202.06, "y_cm": 3990.28, "rot_deg": 180.0, "grid": "R-7", "was_negative": true}, {"x_cm": 916.78, "y_cm": 6166.78, "rot_deg": 90.0, "grid": "B-10", "was_negative": false}, {"x_cm": 1597.45, "y_cm": 6166.78, "rot_deg": 90.0, "grid": "C-10", "was_negative": true}, {"x_cm": 916.78, "y_cm": 3990.28, "rot_deg": 90.0, "grid": "B-7", "was_negative": false}, {"x_cm": 1597.45, "y_cm": 3990.28, "rot_deg": 90.0, "grid": "C-7", "was_negative": true}, {"x_cm": 5529.33, "y_cm": 6166.78, "rot_deg": 90.0, "grid": "H-10", "was_negative": false}, {"x_cm": 6247.45, "y_cm": 6166.78, "rot_deg": 90.0, "grid": "I-10", "was_negative": true}, {"x_cm": 5529.33, "y_cm": 3990.28, "rot_deg": 90.0, "grid": "H-7", "was_negative": false}, {"x_cm": 6247.45, "y_cm": 3990.28, "rot_deg": 90.0, "grid": "I-7", "was_negative": true}, {"x_cm": 10953.63, "y_cm": 6166.78, "rot_deg": 90.0, "grid": "O-10", "was_negative": false}, {"x_cm": 11672.13, "y_cm": 6166.78, "rot_deg": 90.0, "grid": "P-10", "was_negative": true}, {"x_cm": 10954.01, "y_cm": 3990.28, "rot_deg": 90.0, "grid": "O-7", "was_negative": false}, {"x_cm": 11672.13, "y_cm": 3990.28, "rot_deg": 90.0, "grid": "P-7", "was_negative": true}, {"x_cm": 10953.32, "y_cm": 10072.85, "rot_deg": 90.0, "grid": "O-15", "was_negative": false}, {"x_cm": 11671.81, "y_cm": 10072.85, "rot_deg": 90.0, "grid": "P-15", "was_negative": true}, {"x_cm": 11729.01, "y_cm": 10875.26, "rot_deg": 90.0, "grid": "P-16", "was_negative": false}, {"x_cm": 12447.13, "y_cm": 10875.26, "rot_deg": 90.0, "grid": "Q-16", "was_negative": true}, {"x_cm": 10953.63, "y_cm": 80.55, "rot_deg": 90.0, "grid": "O-1", "was_negative": false}, {"x_cm": 12446.51, "y_cm": 80.55, "rot_deg": 90.0, "grid": "Q-1", "was_negative": true}, {"x_cm": 5529.33, "y_cm": 80.55, "rot_deg": 90.0, "grid": "H-1", "was_negative": false}, {"x_cm": 6247.45, "y_cm": 80.55, "rot_deg": 90.0, "grid": "I-1", "was_negative": true}, {"x_cm": 916.78, "y_cm": 80.55, "rot_deg": 90.0, "grid": "B-1", "was_negative": false}, {"x_cm": 1597.45, "y_cm": 80.55, "rot_deg": 90.0, "grid": "C-1", "was_negative": true}, {"x_cm": 13202.06, "y_cm": 10875.73, "rot_deg": 0, "grid": "R-16", "was_negative": true}, {"x_cm": 7797.24, "y_cm": 80.87, "rot_deg": 90.0, "grid": "K-1", "was_negative": true}, {"x_cm": 7080.64, "y_cm": 80.87, "rot_deg": 90.0, "grid": "J-1", "was_negative": true}, {"x_cm": 11728.86, "y_cm": 80.55, "rot_deg": 270.0, "grid": "P-1", "was_negative": true}], "doors": [{"type": "SR", "x_cm": 13067.9, "y_cm": 6282.95, "width_cm": 226.1, "height_cm": 450.0, "rot_deg": 0.0}, {"type": "SR", "x_cm": 1102.27, "y_cm": 7032.49, "width_cm": 226.1, "height_cm": 450.0, "rot_deg": 0.0}, {"type": "SR", "x_cm": 6646.27, "y_cm": 117.5, "width_cm": 226.1, "height_cm": 450.0, "rot_deg": 0.0}, {"type": "EXIT", "x_cm": 4391.59, "y_cm": -25.27, "width_cm": 91.0, "height_cm": 210.0, "rot_deg": 90.0}, {"type": "EXIT", "x_cm": 819.98, "y_cm": 1017.82, "width_cm": 91.0, "height_cm": 210.0, "rot_deg": 0}, {"type": "EXIT", "x_cm": 7459.44, "y_cm": -25.27, "width_cm": 91.0, "height_cm": 210.0, "rot_deg": 90.0}, {"type": "EXIT", "x_cm": 10582.93, "y_cm": -25.27, "width_cm": 91.0, "height_cm": 210.0, "rot_deg": 90.0}, {"type": "EXIT", "x_cm": 13371.08, "y_cm": 101.16, "width_cm": 91.0, "height_cm": 210.0, "rot_deg": 90.0}, {"type": "EXIT", "x_cm": 14554.3, "y_cm": 4635.94, "width_cm": 91.0, "height_cm": 210.0, "rot_deg": 270.0}, {"type": "EXIT", "x_cm": 11781.43, "y_cm": 4035.31, "width_cm": 91.0, "height_cm": 210.0, "rot_deg": 270.0}]};
+
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x12161c);
+    scene.fog = new THREE.FogExp2(0x12161c, 0.002);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.localClippingEnabled = true;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.maxPolarAngle = Math.PI / 2 + 0.05;
+    controls.minDistance = 5;
+    controls.maxDistance = 650;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.55);
+    scene.add(ambientLight);
+
+    const hemiLight = new THREE.HemisphereLight(0xddeeff, 0x223344, 0.45);
+    scene.add(hemiLight);
+
+    const sunLight = new THREE.DirectionalLight(0xfffaed, 0.85);
+    sunLight.position.set(130, 240, 160);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.camera.near = 10;
+    sunLight.shadow.camera.far = 500;
+    const d = 170;
+    sunLight.shadow.camera.left = -d;
+    sunLight.shadow.camera.right = d;
+    sunLight.shadow.camera.top = d;
+    sunLight.shadow.camera.bottom = -d;
+    sunLight.shadow.bias = -0.0005;
+    scene.add(sunLight);
+
+    const CENTER_X = 74.0;
+    const CENTER_Y = 54.5;
+
+    const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 10.0);
+
+    const groupFloor = new THREE.Group();
+    const groupWalls = new THREE.Group();
+    const groupColumns = new THREE.Group();
+    const groupDoors = new THREE.Group();
+    const groupGrid = new THREE.Group();
+    scene.add(groupFloor);
+    scene.add(groupWalls);
+    scene.add(groupColumns);
+    scene.add(groupDoors);
+    scene.add(groupGrid);
+
+    // 1. FLOOR SLAB
+    const slabGeo = new THREE.BoxGeometry(160, 0.5, 122);
+    const slabMat = new THREE.MeshStandardMaterial({
+      color: 0x22272e,
+      roughness: 0.85,
+      metalness: 0.15
+    });
+    const floorSlab = new THREE.Mesh(slabGeo, slabMat);
+    floorSlab.position.set(76.0, -0.25, -CENTER_Y);
+    floorSlab.receiveShadow = true;
+    groupFloor.add(floorSlab);
+
+    const groundGeo = new THREE.PlaneGeometry(550, 550);
+    const groundMat = new THREE.MeshStandardMaterial({
+      color: 0x161b22,
+      roughness: 0.95,
+      metalness: 0.05
+    });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.set(76.0, -0.51, -CENTER_Y);
+    ground.receiveShadow = true;
+    groupFloor.add(ground);
+
+    // 2. COLUMNS (132 H-Beam Columns, 10m Height)
+    const bf = 0.255, tf = 0.015, depth = 0.306, tw = 0.012;
+    const hShape = new THREE.Shape();
+    const halfB = bf / 2, halfD = depth / 2, halfW = tw / 2;
+
+    hShape.moveTo(-halfB, halfD);
+    hShape.lineTo(halfB, halfD);
+    hShape.lineTo(halfB, halfD - tf);
+    hShape.lineTo(halfW, halfD - tf);
+    hShape.lineTo(halfW, -halfD + tf);
+    hShape.lineTo(halfB, -halfD + tf);
+    hShape.lineTo(halfB, -halfD);
+    hShape.lineTo(-halfB, -halfD);
+    hShape.lineTo(-halfB, -halfD + tf);
+    hShape.lineTo(-halfW, -halfD + tf);
+    hShape.lineTo(-halfW, halfD - tf);
+    hShape.lineTo(-halfB, halfD - tf);
+    hShape.closePath();
+
+    const colGeom = new THREE.ExtrudeGeometry(hShape, { depth: 10.0, bevelEnabled: false });
+    colGeom.rotateX(-Math.PI / 2);
+
+    const baseplateGeo = new THREE.BoxGeometry(0.40, 0.03, 0.45);
+    baseplateGeo.translate(0, 0.015, 0);
+
+    const normalColMat = new THREE.MeshStandardMaterial({
+      color: 0x4d5566,
+      roughness: 0.35,
+      metalness: 0.75,
+      clippingPlanes: [clipPlane],
+      clipShadows: true
+    });
+
+    const hoverColMat = new THREE.MeshStandardMaterial({
+      color: 0xffb703,
+      roughness: 0.2,
+      metalness: 0.8
+    });
+
+    const columnMeshes = [];
+
+    BUILDING_DATA.columns.forEach((c, idx) => {
+      const colGroup = new THREE.Group();
+      const colMesh = new THREE.Mesh(colGeom, normalColMat);
+      colMesh.castShadow = true;
+      colMesh.receiveShadow = true;
+
+      const baseMesh = new THREE.Mesh(baseplateGeo, normalColMat);
+      baseMesh.castShadow = true;
+
+      colGroup.add(colMesh);
+      colGroup.add(baseMesh);
+
+      const posX = c.x_cm / 100.0;
+      const posZ = -c.y_cm / 100.0;
+      colGroup.position.set(posX, 0, posZ);
+      colGroup.rotation.y = THREE.MathUtils.degToRad(-c.rot_deg);
+
+      colGroup.userData = {
+        id: idx,
+        grid: c.grid,
+        x: posX.toFixed(2),
+        y: (c.y_cm / 100.0).toFixed(2),
+        height: '10.0 m',
+        was_negative: c.was_negative,
+        colMesh: colMesh,
+        baseMesh: baseMesh
+      };
+
+      columnMeshes.push(colGroup);
+      groupColumns.add(colGroup);
+    });
+
+    // 3. OUTER WALLS (18 Continuous Segments including R1~R7 Extension)
+    const wallPolyCm = [
+      [850.50, 30.83],
+      [12475.50, 30.83],
+      [12475.50, 192.63],
+      [13786.47, 192.63],
+      [13786.47, 2367.44],
+      [14308.45, 2367.44],
+      [14308.45, 3455.97],
+      [14830.43, 3455.97],
+      [14830.43, 4548.32],
+      [13240.30, 4548.32],
+      [13240.30, 10891.03],
+      [7092.56, 10891.03],
+      [7092.56, 10126.23],
+      [850.50, 10126.23],
+      [850.50, 6608.14],
+      [85.70, 6608.14],
+      [85.70, 3548.93],
+      [850.50, 3548.93]
+    ];
+    const WT_m = 0.3059;
+    const WALL_H = 10.0;
+
+    const wallMatOpaque = new THREE.MeshStandardMaterial({
+      color: 0xd8e2dc,
+      roughness: 0.65,
+      metalness: 0.1,
+      clippingPlanes: [clipPlane],
+      clipShadows: true,
+      side: THREE.DoubleSide
+    });
+
+    const wallMatTrans = new THREE.MeshStandardMaterial({
+      color: 0xd8e2dc,
+      roughness: 0.5,
+      metalness: 0.1,
+      transparent: true,
+      opacity: 0.45,
+      clippingPlanes: [clipPlane],
+      side: THREE.DoubleSide
+    });
+
+    const expansionWallMat = new THREE.MeshStandardMaterial({
+      color: 0xffb703,
+      roughness: 0.4,
+      metalness: 0.2,
+      transparent: true,
+      opacity: 0.8,
+      clippingPlanes: [clipPlane],
+      side: THREE.DoubleSide
+    });
+
+    const wallMeshes = [];
+
+    for (let i = 0; i < wallPolyCm.length; i++) {
+      const p1 = wallPolyCm[i];
+      const p2 = wallPolyCm[(i + 1) % wallPolyCm.length];
+      
+      const x1 = p1[0] / 100.0, y1 = p1[1] / 100.0;
+      const x2 = p2[0] / 100.0, y2 = p2[1] / 100.0;
+      
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const len = Math.sqrt(dx * dx + dy * dy);
+      const angle = Math.atan2(dy, dx);
+      
+      const midX = (x1 + x2) / 2.0;
+      const midY = (y1 + y2) / 2.0;
+      
+      const isExpansionSegment = (i >= 2 && i <= 8);
+      
+      const wallSegmentGeo = new THREE.BoxGeometry(len, WALL_H, WT_m);
+      const wallMesh = new THREE.Mesh(wallSegmentGeo, wallMatTrans);
+      wallMesh.position.set(midX, WALL_H / 2.0, -midY);
+      wallMesh.rotation.y = angle;
+      wallMesh.castShadow = true;
+      wallMesh.receiveShadow = true;
+      wallMesh.userData = { isExpansion: isExpansionSegment };
+      
+      wallMeshes.push(wallMesh);
+      groupWalls.add(wallMesh);
+    }
+
+    // 4. DOORS (3 Speed Roll Doors + 7 Exit Doors)
+    const srDoorMat = new THREE.MeshStandardMaterial({
+      color: 0x1d4ed8,
+      roughness: 0.4,
+      metalness: 0.6,
+      clippingPlanes: [clipPlane]
+    });
+    const exitDoorMat = new THREE.MeshStandardMaterial({
+      color: 0xdc2626,
+      roughness: 0.5,
+      metalness: 0.4,
+      clippingPlanes: [clipPlane]
+    });
+
+    BUILDING_DATA.doors.forEach(d => {
+      const posX = d.x_cm / 100.0;
+      const posZ = -d.y_cm / 100.0;
+      const width = d.width_cm / 100.0;
+      const height = d.height_cm / 100.0;
+      
+      const doorGroup = new THREE.Group();
+      
+      if (d.type === 'SR') {
+        const curtainGeo = new THREE.BoxGeometry(width, height, 0.12);
+        const curtain = new THREE.Mesh(curtainGeo, srDoorMat);
+        curtain.position.y = height / 2.0;
+        doorGroup.add(curtain);
+        
+        const drumGeo = new THREE.CylinderGeometry(0.25, 0.25, width + 0.2, 16);
+        drumGeo.rotateZ(Math.PI / 2);
+        const drum = new THREE.Mesh(drumGeo, srDoorMat);
+        drum.position.y = height;
+        doorGroup.add(drum);
+      } else {
+        const leafGeo = new THREE.BoxGeometry(width, height, 0.08);
+        const leaf = new THREE.Mesh(leafGeo, exitDoorMat);
+        leaf.position.y = height / 2.0;
+        doorGroup.add(leaf);
+        
+        const barGeo = new THREE.BoxGeometry(width * 0.8, 0.05, 0.08);
+        const barMat = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.8 });
+        const bar = new THREE.Mesh(barGeo, barMat);
+        bar.position.set(0, 1.0, 0.05);
+        doorGroup.add(bar);
+      }
+      
+      doorGroup.position.set(posX, 0, posZ);
+      doorGroup.rotation.y = THREE.MathUtils.degToRad(-d.rot_deg);
+      groupDoors.add(doorGroup);
+    });
+
+    // 5. GRID LINES & BUBBLE LABELS
+    const gridLineMat = new THREE.LineBasicMaterial({ color: 0x30363d, transparent: true, opacity: 0.6 });
+    
+    Object.entries(BUILDING_DATA.grid_x).forEach(([label, x_cm]) => {
+      const gx = x_cm / 100.0;
+      const points = [
+        new THREE.Vector3(gx, 0.02, 5),
+        new THREE.Vector3(gx, 0.02, -112)
+      ];
+      const gLineGeo = new THREE.BufferGeometry().setFromPoints(points);
+      const gLine = new THREE.Line(gLineGeo, gridLineMat);
+      groupGrid.add(gLine);
+      
+      createLabelSprite(label, gx, 0.5, 4.0);
+      createLabelSprite(label, gx, 0.5, -111.0);
+    });
+
+    Object.entries(BUILDING_DATA.grid_y).forEach(([label, y_cm]) => {
+      const gy = -y_cm / 100.0;
+      const points = [
+        new THREE.Vector3(-4, 0.02, gy),
+        new THREE.Vector3(150, 0.02, gy)
+      ];
+      const gLineGeo = new THREE.BufferGeometry().setFromPoints(points);
+      const gLine = new THREE.Line(gLineGeo, gridLineMat);
+      groupGrid.add(gLine);
+      
+      createLabelSprite(label, -3.5, 0.5, gy);
+      createLabelSprite(label, 149.5, 0.5, gy);
+    });
+
+    function createLabelSprite(text, x, y, z) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 128;
+      canvas.height = 128;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#1f6feb';
+      ctx.beginPath();
+      ctx.arc(64, 64, 52, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 6;
+      ctx.stroke();
+      
+      ctx.font = 'bold 50px sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 64, 66);
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      const spriteMat = new THREE.SpriteMaterial({ map: texture, depthTest: false });
+      const sprite = new THREE.Sprite(spriteMat);
+      sprite.position.set(x, y, z);
+      sprite.scale.set(3.5, 3.5, 1);
+      groupGrid.add(sprite);
+    }
+
+    setCamera('iso');
+
+    function setCamera(type) {
+      const duration = 800;
+      let targetPos = new THREE.Vector3();
+      let lookTarget = new THREE.Vector3(CENTER_X, 5, -CENTER_Y);
+      
+      if (type === 'iso') {
+        targetPos.set(CENTER_X + 115, 110, -CENTER_Y + 130);
+      } else if (type === 'top') {
+        targetPos.set(CENTER_X, 210, -CENTER_Y - 0.01);
+      } else if (type === 'expansion') {
+        targetPos.set(155, 35, -25);
+        lookTarget.set(138, 5, -25);
+      } else if (type === 'front') {
+        targetPos.set(CENTER_X, 15, 65);
+      } else if (type === 'side') {
+        targetPos.set(-75, 15, -CENTER_Y);
+      }
+      
+      const startPos = camera.position.clone();
+      const startTarget = controls.target.clone();
+      const startTime = performance.now();
+      
+      function anim(time) {
+        const elapsed = time - startTime;
+        const t = Math.min(elapsed / duration, 1.0);
+        const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        
+        camera.position.lerpVectors(startPos, targetPos, ease);
+        controls.target.lerpVectors(startTarget, lookTarget, ease);
+        controls.update();
+        
+        if (t < 1.0) requestAnimationFrame(anim);
+      }
+      requestAnimationFrame(anim);
+    }
+
+    function toggleColumns(v) { groupColumns.visible = v; }
+    function toggleWalls(v) { groupWalls.visible = v; }
+    function toggleWallTrans(v) {
+      wallMeshes.forEach(m => {
+        if (!document.getElementById('chk-exp-highlight').checked || !m.userData.isExpansion) {
+          m.material = v ? wallMatTrans : wallMatOpaque;
+        }
+      });
+    }
+    function toggleFloor(v) { groupFloor.visible = v; }
+    function toggleDoors(v) { groupDoors.visible = v; }
+    function toggleGrid(v) { groupGrid.visible = v; }
+    
+    function toggleExpansionHighlight(v) {
+      const isTrans = document.getElementById('chk-trans').checked;
+      wallMeshes.forEach(m => {
+        if (m.userData.isExpansion) {
+          m.material = v ? expansionWallMat : (isTrans ? wallMatTrans : wallMatOpaque);
+        }
+      });
+    }
+
+    function updateClipPlane(val) {
+      const h = parseFloat(val);
+      clipPlane.constant = h;
+      document.getElementById('clip-val').innerText = h.toFixed(1) + ' m';
+    }
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const tooltip = document.getElementById('tooltip');
+    let hoveredCol = null;
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(groupColumns.children, true);
+      
+      if (intersects.length > 0) {
+        let root = intersects[0].object;
+        while (root.parent && root.parent !== groupColumns) {
+          root = root.parent;
+        }
+        
+        if (hoveredCol !== root) {
+          resetHover();
+          hoveredCol = root;
+          const u = hoveredCol.userData;
+          u.colMesh.material = hoverColMat;
+          u.baseMesh.material = hoverColMat;
+          
+          tooltip.style.display = 'block';
+          tooltip.innerHTML = `
+            <strong>Column Grid: ${u.grid}</strong><br>
+            Coordinates: X = ${u.x}m, Y = ${u.y}m, Z = 0 ~ 10.0m<br>
+            Profile: W12×10" Structural Steel H-Beam<br>
+            Baseplate: 40×45cm with 4 Anchor Bolts<br>
+            Status: ${u.was_negative ? '<span style="color:#00d2d3">Restored (Negative DWG Mirrored Coordinate)</span>' : 'Standard Grid'}
+          `;
+        }
+        tooltip.style.left = (e.clientX + 16) + 'px';
+        tooltip.style.top = (e.clientY + 16) + 'px';
+      } else {
+        resetHover();
+        tooltip.style.display = 'none';
+      }
+    });
+
+    function resetHover() {
+      if (hoveredCol) {
+        const u = hoveredCol.userData;
+        u.colMesh.material = normalColMat;
+        u.baseMesh.material = normalColMat;
+        hoveredCol = null;
+      }
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>

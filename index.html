@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factory 3D Engineering Hub</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #0f141c;
+      color: #e6edf3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 40px 24px 20px;
+      text-align: center;
+      background: radial-gradient(circle at top, #1c2738 0%, #0f141c 70%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffcc00;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    p.lead {
+      color: #8b949e;
+      font-size: 1rem;
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+    main {
+      flex: 1;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #58a6ff;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .badge.ready {
+      background: rgba(46, 160, 67, 0.2);
+      color: #3fb950;
+      border: 1px solid rgba(46, 160, 67, 0.4);
+    }
+    h2 {
+      font-size: 1.25rem;
+      color: #f0f6fc;
+      margin-bottom: 8px;
+    }
+    p.card-desc {
+      color: #8b949e;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+    .specs-list {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.78rem;
+      color: #c9d1d9;
+      margin-bottom: 20px;
+    }
+    .specs-list li {
+      margin-bottom: 4px;
+      list-style: none;
+    }
+    .specs-list li strong {
+      color: #ffcc00;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: #238636;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+    .btn:hover {
+      background: #2ea043;
+    }
+    .btn.secondary {
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+    }
+    .btn.secondary:hover {
+      background: #30363d;
+      border-color: #8b949e;
+    }
+    footer {
+      text-align: center;
+      padding: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.8rem;
+      color: #8b949e;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏭 Factory 3D Engineering Hub</h1>
+    <p class="lead">Central portal for industrial facility CAD models, safety barrier enclosures, and interactive real-time 3D web simulations.</p>
+  </header>
+
+  <main>
+    <div class="grid">
+      <!-- Card 1: Part Room Fence -->
+      <div class="card">
+        <div>
+          <span class="badge ready">Complete • Interactive 3D</span>
+          <h2>01. Part Room Fence</h2>
+          <p class="card-desc">Production line Part Room corner enclosure using 100% genuine Uline BL_1440 Wire Machine Guards with a 90° hinged door and zero-gap alignment.</p>
+          <ul class="specs-list">
+            <li>• Footprint: <strong>14.38m × 4.17m</strong> (59.9 m²)</li>
+            <li>• Standard: <strong>Uline BL_1440 Safety Wire Mesh</strong></li>
+            <li>• Door: <strong>4ft H-5612-7 (90° Outward Swing)</strong></li>
+            <li>• CAD: <strong>Inventor .iam / .ipt / .stp</strong></li>
+          </ul>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <a class="btn" style="flex:1;" href="./fence/index.html">🚀 Launch 3D Viewer</a>
+          <a class="btn secondary" href="./fence/Part_Room_3D_Viewer_AllInOne.html" title="Offline Single File">📦 All-in-One</a>
+        </div>
+      </div>
+
+      <!-- Card 2: Factory Building -->
+      <div class="card">
+        <div>
+          <span class="badge ready">Complete • Interactive 3D</span>
+          <h2>02. Factory Building Structure</h2>
+          <p class="card-desc">Architectural and civil structure of the factory facility with floor slabs, exterior walls, W12 H-beam structural columns, and industrial roll doors.</p>
+          <ul class="specs-list">
+            <li>• Basis: <strong>AutoCAD Architecture (building.dwg)</strong></li>
+            <li>• Columns: <strong>W12 Structural Steel H-Beams</strong></li>
+            <li>• Doors: <strong>Speed Roll Doors & Exit Doors</strong></li>
+            <li>• CAD: <strong>Building_Assembly.iam / .stp</strong></li>
+          </ul>
+        </div>
+        <a class="btn" href="./Building/index.html">🚀 Launch Building 3D</a>
+      </div>
+
+      <!-- Card 3: Solar Module -->
+      <div class="card">
+        <div>
+          <span class="badge ready">Complete • High-Res Renders</span>
+          <h2>03. Solar Panel Photovoltaic Module</h2>
+          <p class="card-desc">High-precision 3D CAD assembly of industrial solar panel module with glass, EVA encapsulant, half-cut cell matrix, ribbon interconnects, and junction boxes.</p>
+          <ul class="specs-list">
+            <li>• Assembly: <strong>Module_design.iam</strong></li>
+            <li>• Components: <strong>Cell String, Ribbon, Busbars</strong></li>
+            <li>• Framing: <strong>Vendor STEP & SolidWorks Profiles</strong></li>
+            <li>• Renders: <strong>6 High-Resolution PNG Renders</strong></li>
+          </ul>
+        </div>
+        <a class="btn secondary" href="./01_solar_module/HANDOVER_SOLAR_PANEL_3D.md">📄 View Handover & Specs</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Autodesk Inventor 2026 • Three.js WebGL Engine • Industrial Engineering 3D Hub
+  </footer>
+</body>
+</html>
