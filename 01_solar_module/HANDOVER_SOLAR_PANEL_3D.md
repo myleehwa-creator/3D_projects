@@ -60,7 +60,7 @@ flowchart TD
 | **Step 1043 ~ 1198** | `Framing/` 폴더의 STEP 파일(Long/Short Frame, Corner Key) 및 `junction_box.dwg` 3D 모델링 및 어셈블리 결합 요청 | STEP 파일 파싱 및 회전/배치, 정션박스 3개(Split J-Box) 형상 구현 필요 | `USM-0001-01.step`, `USM-0002-00.step`, `USM-0003-00.step` 임포트 후 `Frame_Long.ipt`, `Frame_Short.ipt`, `Frame_Corner.ipt` 생성 |
 | **Step 1203 ~ 1253** | 롱프레임/숏프레임 조립 방향 일치 검증 요청 | Glass 가로/세로 축 정의(X: 1128mm 너비, Z: 2272mm 길이)와 프레임 배치 축이 90도 교차됨을 발견 | 프레임 회전 매트릭스 재계산: `Frame_Long`을 Z축(2278mm), `Frame_Short`를 X축(1134mm)으로 매핑하고 슬롯 높이 Y=[0, 5.57]mm에 완벽 안착 |
 | **Step 1254 ~ 1275** | 코너 키 4개 삽입 및 최종 렌더링 완료 | 프레임 사각 모서리 체결 및 정션박스 케이블 인출 방향 확인 | 프레임 하부 캐비티에 `Frame_Corner.ipt` 4개 안착, 전면/후면 고해상도 렌더링 생성 |
-| **Step 1276 ~** | **프레임 조립 구조 및 코너키 사전 장착 서브어셈블리 수정** | 코너키가 루트에 분리되어 있고 방향이 역방향(+Z 외측) 돌출된 문제 및 사전 조립 공정 미반영 | `Short_Frame_Assembly.iam` 서브어셈블리(숏프레임 양단에 코너키 2개 사전 압입) 생성, 코너키 높이를 캐비티 규격(23.5mm)으로 정밀 트리밍 후 롱프레임 내부로 36.4mm 슬라이드 삽입 결합 구현 |
+| **Step 1276 ~ 1785** | **프레임 45° 사선 연귀 맞춤(Miter Joint) 전면 개편** | 롱/숏 프레임이 수직/직각(Butt Joint)으로 맞닿아 실제 모듈 압출 프레임의 대각선 결합과 상이함 | `Frame_Long.ipt`(2278mm) 및 `Frame_Short.ipt`(1134mm) 양단을 각각 45° 사선 컷(Miter Cut)으로 정밀 가공하여 외곽 $X=\pm 567.0, Z=\pm 1139.0$ mm에서 대각선으로 완벽 맞물림 구현. 중공 캐비티 내부에 L자형 코너키(`Frame_Corner.ipt`) 4개를 안착하여 견고한 체결 완성 |
 
 ---
 
@@ -138,16 +138,15 @@ flowchart TD
   - 하단 6스트링 ($Z \approx -560.3$ mm): $X = \pm 459.65, \pm 275.85, \pm 92.05$ mm
   - 인접 스트링 간 $180^\circ$ Y축 반전 배치를 통해 사행(Serpentine) 직렬 배선 구현.
 
-### 4.3 알루미늄 프레임 구조 (`Frame_Long.ipt`, `Frame_Short.ipt`, `Frame_Corner.ipt`, `Short_Frame_Assembly.iam`)
+### 4.3 알루미늄 프레임 구조 (`Frame_Long.ipt`, `Frame_Short.ipt`, `Frame_Corner.ipt`)
 - **프로파일 단면:** 35mm 높이, 상단 라미네이트 삽입 홈(Slot 폭 6.0mm, 깊이 11.0mm, $Y \in [0.0, 5.57]$ mm).
 - **중공 캐비티 규격:** 폭 10.0 mm ($X \in [1.30, 11.30]$ mm), 높이 24.0 mm ($Z \in [1.35, 25.35]$ mm).
-- **코너키 규격 (`Frame_Corner.ipt`):** 47.7 mm × 47.7 mm L자형, 단면 높이를 캐비티 규격에 맞춰 23.5 mm로 정밀 트리밍 ($Y \in [-11.75, +11.75]$ mm).
-- **숏프레임 서브어셈블리 (`Short_Frame_Assembly.iam`):**
-  - 실제 공정에 맞게 `Frame_Short.ipt` 양단 캐비티에 `Frame_Corner.ipt` 2개(Left/Right)를 각각 47.7 mm 사전 압입(Pre-installation) 체결.
-  - 코너키의 돌출 다리(36.4 mm)는 롱프레임을 향해 $-X$ 방향으로 노출.
-- **마스터 결합 (`Module_design.iam`):**
-  - 상/하단에 `Short_Frame_Assembly` 2개(`Short_Frame_Top`, `Short_Frame_Bottom`) 배치.
-  - 양측 롱프레임(`Frame_Long:1`, `Frame_Long:2`)의 상/하단 중공 캐비티 속으로 숏프레임 코너키의 돌출 다리가 정확히 36.4 mm 슬라이드 결합되어 완전한 직각 프레임 밀착 결합 실현.
+- **45° 사선 연귀 맞춤 (Miter Joint):**
+  - **`Frame_Long.ipt` (2,278 mm 외곽 길이):** 양단 끝단이 45° 대각선으로 절단 가공됨. 외곽 끝점 $Z = \pm 1,139.0$ mm에서 내부 끝점 $Z = \pm 1,104.0$ mm로 35 mm 테이퍼링.
+  - **`Frame_Short.ipt` (1,134 mm 외곽 길이):** 양단 끝단이 45° 대각선으로 절단 가공됨. 외곽 끝점 $X = \pm 567.0$ mm에서 내부 끝점 $X = \pm 532.0$ mm로 35 mm 테이퍼링.
+  - **모서리 맞물림:** 4개 모서리(Top-Right, Top-Left, Bottom-Right, Bottom-Left)에서 롱프레임과 숏프레임의 45° 사선 단면이 $0.00$ mm의 오차로 완벽하게 대각선 방향으로 맞물림(Zero Gap / Zero Interference).
+- **코너 체결 키 (`Frame_Corner.ipt`):**
+  - 47.7 mm × 47.7 mm L자형 코너 브래킷 4개가 사선 맞춤선 안쪽의 중공 캐비티 속으로 롱프레임과 숏프레임 양쪽으로 대칭 삽입되어 90° 직각 프레임을 견고하게 결합.
 
 ### 4.4 정션박스 (Split 3-Part Junction Box)
 - **규격:** `Data Sheet PV-ZH011C-5` 기반 3분할 독립 구조
